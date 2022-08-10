@@ -1,4 +1,6 @@
-//SPDX-License-Identifier: MIT
+/SPDX-License-Identifier: MIT
+
+//Using latest compiling version to ensure future stability and maintenance of functions as the lang progresses
 pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -7,28 +9,26 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract jwallet is Ownable {
 
-//establishing ownership of tokens through an individual owner
+//Establishing ownership of tokens through an individual owner
 //Making a boolean to help represent any address that has owned a token within the wallet; this can be a form of security to see any foreign interactions within the tx's
 //Listing the tokens that are in the wallet currently, as well as those to be added to the wallet at a later time
+
     address private _owner;
     bool private constant has_owned = true;
     bytes32[] public tokenList;
+
+//creating a state variable to assist with the m.s functionality ahead
     bool private constant isApproved = true;
     
-
     struct Token {
         bytes32 ticker;
         address tokenAddress;
-    }
-    enum stat_bool{
-        True,
-        False
     }
     
     mapping(bytes32 => Token) public tokenMapping;
     mapping(address => mapping(bytes32 => bool)) private active_user;
     mapping(address => mapping(bytes32 => uint256)) public balances;
-    mapping(address => bool) public approves;
+    mapping(address => bool) internal approval_stat;
 
     modifier tokenExist(bytes32 ticker){
         require(tokenMapping[ticker].tokenAddress != address(0), "Token does not exist.");
@@ -37,6 +37,12 @@ contract jwallet is Ownable {
 
     modifier minimumBal(bytes32 ticker){
         require(balances[_owner][ticker] > 0);
+        _;
+    }
+    modifier minSig(address ad1, address ad2){
+        require(ad1 != address(0) && ad2 != address(0));
+        require(ad1 != msg.sender && ad2 != msg.sender);
+        require(approval_stat[msg.sender] == true);
         _;
     }
 
