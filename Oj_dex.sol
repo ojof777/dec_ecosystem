@@ -4,7 +4,7 @@ pragma solidity 0.8.16;
 import "/contracts/j_wallet.sol";
 
 
-contract Dex is jwallet {
+contract jdex is jwallet {
 
 
     enum Side {
