@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: MIT
+//SPDX-License-Identifier: UNLISCENSED
 pragma solidity 0.8.16;
 
 import "/contracts/j_wallet.sol";
