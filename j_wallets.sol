@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: MIT
+//SPDX-License-Identifier: UNLICENSED
 
 //Using latest compiling version to ensure future stability and maintenance of functions as the lang progresses
 pragma solidity 0.8.16;
